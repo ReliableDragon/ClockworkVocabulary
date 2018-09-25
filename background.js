@@ -1,50 +1,78 @@
 console.log("Running!");
 
-// let replaceVocab = function() {
-//   let docText = document.body.textContent;
-//   chrome.storage.sync.get('vocab', function(dict) {
-//     Object.keys(dict).forEach(function(element) {
-//       let reText = '(\\W)' + element + '(\\W)';
-//       let re1 = new RegExp(reText, 'g');
-//
-//       let replacementFunction = function(match, p1, p2) {
-//       	return p1 + dict[element] + p2;
-//       }
-//
-//       docText = docText.replace(re1, replacementFunction);
-//       document.body.textContent = docText;
-//       console.log(document.body.textContent);
-//     });
-//   });
-// };
-
 chrome.runtime.onInstalled.addListener(function() {
-  let vocab = {"the": "das", "The": "Das", "THE": "DAS"}
+  let vocab = {"the": "MONSTER TRUCKS", "The": "MONSTER TRUCKS", "THE": "MONSTER TRUCKS"}
   chrome.storage.sync.set({'vocab': vocab}, function() {
     console.log("Vocabulary is: " + String(vocab));
   })
-});
 
-// "declarativeContent",
-// "activeTab",
+});
 
 chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
   console.log("Listener ran!");
-  if (changeInfo.status == 'complete' && tab.active) {
-    console.log("Changing page.");
-    console.log(document.body.textContent);
+  if (tab.active) {
     chrome.tabs.executeScript(tabId, {
       file: "editVocab.js"
     });
-    // replaceVocab();
   }
-})
+});
 
-// chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-//   chrome.declarativeContent.onPageChanged.addRules([{
-//     conditions: [new chrome.declarativeContent.PageStateMatcher({
-//       pageUrl: {hostEquals: 'developer.chrome.com'},
-//     })],
-//       actions: [new chrome.declarativeContent.ShowPageAction()]
-//   }]);
-// })
+function addWord(info, tab) {
+  chrome.storage.sync.get('vocab', function(dict) {
+    dict = dict['vocab'];
+    let word = info.selectionText;
+    console.log("Adding word to ClockworkVocabulary: " + word);
+    let firstChar = word[0];
+    let lower_word = word.toLowerCase();
+    let upper_word = word.toUpperCase();
+    let cap_word = firstChar.toUpperCase() + word.substring(1);
+    dict[lower_word] = "MONSTER TRUCKS";
+    dict[upper_word] = "MONSTER TRUCKS";
+    dict[cap_word] = "MONSTER TRUCKS";
+    chrome.storage.sync.set({'vocab': dict});
+    chrome.tabs.executeScript(tab.id, {
+      file: "editVocab.js"
+    });
+  });
+  console.log("Add word to ClockworkVocabulary: " + info.selectionText);
+}
+
+function removeWord(info, tab) {
+  chrome.storage.sync.get('vocab', function(dict) {
+    dict = dict['vocab'];
+    let word = info.selectionText;
+    console.log("Removing word from ClockworkVocabulary: " + word);
+    let firstChar = word[0];
+    let lower_word = word.toLowerCase();
+    let upper_word = word.toUpperCase();
+    let cap_word = firstChar.toUpperCase() + word.substring(1);
+    delete dict[lower_word];
+    delete dict[upper_word];
+    delete dict[cap_word];
+    chrome.storage.sync.set({'vocab': dict});
+  });
+}
+var selectionId = chrome.contextMenus.create({"title": "Add word to translation.",
+                            "contexts": ["selection"],
+                            "onclick": addWord});
+
+// chrome.storage.sync.get('vocab', function(dict) {
+//   dict = dict['vocab'];
+//   let contents = ["selection"];
+//   let is_word = /^[a-zA-Z]+$/.test(contents);
+//   if (!is_word) {
+//     return;
+//   }
+//   console.log("Dict: ");
+//   console.log(dict);
+//   if (!contents in dict) {
+//     var selectionId = chrome.contextMenus.create({"title": "Add word to translation.",
+//                                 "contexts": ["selection"],
+//                                 "onclick": addWord});
+//   } else {
+//     var selectionId = chrome.contextMenus.create({"title": "Remove word from translation.",
+//                                 "contexts": ["selection"],
+//                                 "onclick": removeWord});
+//   }
+//   console.log(selectionId);
+// });

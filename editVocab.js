@@ -1,4 +1,4 @@
-let replaceVocab = function() {
+function replaceVocab() {
 
   chrome.storage.sync.get('vocab', function(dict) {
     var nodeIterator = document.createNodeIterator(
