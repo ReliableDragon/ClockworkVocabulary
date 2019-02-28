@@ -1,11 +1,11 @@
 {
     "name": "ClockworkVocabulary",
     "version": "1.0",
-    "description": "Build your vocabulary!",
+    "description": "Build your vocabulary, one word at a time.",
     "permissions": [
       "storage",
       "contextMenus",
-      "https://developer.chrome.com/"],
+      "activeTab"],
     "background": {
       "scripts": ["background.js"]
     },
@@ -18,5 +18,6 @@
     "icons": {
       "16": "images/CV16.png"
     },
+    "options_page": "options.html",
     "manifest_version": 2
 }

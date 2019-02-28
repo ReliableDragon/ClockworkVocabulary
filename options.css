@@ -1,0 +1,26 @@
+input {
+  display:block;
+}
+.panel {
+  float: left;
+  width: 50%;
+}
+#addWord {
+  background-color: #C0F0C0;
+  border-radius: 10px;
+}
+#removeWord {
+  background-color: #F0C0C0;
+  border-radius: 10px;
+}
+div {
+  margin-left: 70px;
+  margin-right: 70px;
+  margin-top: 70px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+h1 {
+  text-align: center;
+}

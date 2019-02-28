@@ -1,7 +1,7 @@
 console.log("Running!");
 
 chrome.runtime.onInstalled.addListener(function() {
-  let vocab = {"the": "MONSTER TRUCKS", "The": "MONSTER TRUCKS", "THE": "MONSTER TRUCKS"}
+  let vocab = {}
   chrome.storage.sync.set({'vocab': vocab}, function() {
     console.log("Vocabulary is: " + String(vocab));
   })
@@ -52,27 +52,6 @@ function removeWord(info, tab) {
     chrome.storage.sync.set({'vocab': dict});
   });
 }
-var selectionId = chrome.contextMenus.create({"title": "Add word to translation.",
-                            "contexts": ["selection"],
-                            "onclick": addWord});
-
-// chrome.storage.sync.get('vocab', function(dict) {
-//   dict = dict['vocab'];
-//   let contents = ["selection"];
-//   let is_word = /^[a-zA-Z]+$/.test(contents);
-//   if (!is_word) {
-//     return;
-//   }
-//   console.log("Dict: ");
-//   console.log(dict);
-//   if (!contents in dict) {
-//     var selectionId = chrome.contextMenus.create({"title": "Add word to translation.",
-//                                 "contexts": ["selection"],
-//                                 "onclick": addWord});
-//   } else {
-//     var selectionId = chrome.contextMenus.create({"title": "Remove word from translation.",
-//                                 "contexts": ["selection"],
-//                                 "onclick": removeWord});
-//   }
-//   console.log(selectionId);
-// });
+// var selectionId = chrome.contextMenus.create({"title": "Add word to translation.",
+//                             "contexts": ["selection"],
+//                             "onclick": addWord});

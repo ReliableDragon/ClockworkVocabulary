@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="options.css" />
+  <script src="options.js"></script>
+</head>
+<body>
+  <div class="row">
+  <div id="rightPanel" class="panel">
+
+  </div>
+  <div id="leftPanel" class="panel">
+  <div id="addWord">
+    <h1>
+      Add Word:
+    </h1>
+    <form>
+      Word to Translate: <input type="text" name="addWordIn" />
+      Translation: <input type="text" name="addWordOut" />
+      <input type="button" onclick="addWord()" value="Add Word" />
+    </form>
+  </div>
+  <div id="removeWord">
+    <h1>
+      Remove Word:
+    </h1>
+    <form>
+      Word to Remove: <input type="text" name="removeWord" />
+      <input type="button" onclick="removeWord()" value="Remove Word" />
+    </form>
+  </div>
+  </div>
+  </div>
+</body>
+</html>
