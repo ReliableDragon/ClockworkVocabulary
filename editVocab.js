@@ -1,5 +1,5 @@
 function storageReplace() {
-  console.log("Running edit function.");
+  // console.log("Running edit function.");
   chrome.storage.sync.get('forward', function(dict) {
     dict = dict['forward'];
     replaceVocab(dict);
@@ -7,7 +7,7 @@ function storageReplace() {
 }
 
 function replaceVocab(dict) {
-  console.log("Vocab replacement dict: %s", JSON.stringify(dict));
+  // console.log("Vocab replacement dict: %s", JSON.stringify(dict));
 
   var treeWalker = document.createTreeWalker(
     document.body,
@@ -50,9 +50,9 @@ function replaceVocab(dict) {
 }
 
 document.addEventListener("selectionchange", function() {
-  console.log("MouseDown listener running!");
+  // console.log("MouseDown listener running!");
   let selection = window.getSelection().toString();
-  console.log("Sending message: " + selection);
+  // console.log("Sending message: " + selection);
   chrome.runtime.sendMessage({
     "selected": selection
   });
@@ -60,7 +60,7 @@ document.addEventListener("selectionchange", function() {
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    console.log("Got a message: " + JSON.stringify(request));
+    // console.log("Got a message: " + JSON.stringify(request));
     if (!request || !request["replacement"]) {
       return;
     }

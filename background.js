@@ -1,20 +1,12 @@
-console.log("Running!");
+// console.log("Running!");
 
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(["forward", "backward"], function(dict) {
-    let forward = {
-      the: "das",
-      a: "ein",
-      it: "dass"
-    };
+    let forward = {};
     if (dict["forward"]) {
       forward = dict["forward"];
     }
-    let backward = {
-      das: "the",
-      ein: "a",
-      dass: "it"
-    };
+    let backward = {};
     if (dict["backward"]) {
       backward = dict["backward"];
     }
@@ -22,7 +14,7 @@ chrome.runtime.onInstalled.addListener(function() {
       'forward': forward,
       'backward': backward
     }, function() {
-      console.log("Vocabulary is: " + JSON.stringify(forward));
+      // console.log("Vocabulary is: " + JSON.stringify(forward));
     });
   });
 });
@@ -33,7 +25,7 @@ chrome.webNavigation.onDOMContentLoaded.addListener(function(details) {
       details.url.substring(0, 19) == "chrome-extension://")) {
     return;
   }
-  console.log("Executing vocab edit.");
+  // console.log("Executing vocab edit.");
   chrome.tabs.executeScript(details.tabId, {
     file: "editVocab.js"
   });
@@ -69,14 +61,14 @@ function addWord(wordIn, sendMessage) {
 }
 
 function removeWord(toRemove, sendMessage) {
-  console.log("Removing " + toRemove);
+  // console.log("Removing " + toRemove);
   chrome.storage.sync.get(['forward', 'backward'], function(dict) {
     let forward = dict['forward'];
     let backward = dict['backward'];
     let translated = backward[toRemove];
     delete forward[translated];
     delete backward[toRemove];
-    console.log("New vocab: %s", JSON.stringify(forward));
+    // console.log("New vocab: %s", JSON.stringify(forward));
     chrome.storage.sync.set({
       'forward': forward,
       'backward': backward
@@ -87,21 +79,21 @@ function removeWord(toRemove, sendMessage) {
 }
 
 function updatePage(toChange, changed) {
-  console.log("Sending message!");
+  // console.log("Sending message!");
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     replacementDict = {};
     replacementDict[toChange] = changed;
     chrome.tabs.sendMessage(tabs[0].id, {replacement: replacementDict}, function(response) {
-      console.log(response);
+      // console.log(response);
   });
 });
 }
 
-console.log("Adding message listener.");
+// console.log("Adding message listener.");
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendMessage) {
     let selection = request["selected"];
-    console.log("Messaged with selection: {" + selection + "}.");
+    // console.log("Messaged with selection: {" + selection + "}.");
     if (selection) {
       selection = selection.trim();
       selection = selection.toLowerCase();
