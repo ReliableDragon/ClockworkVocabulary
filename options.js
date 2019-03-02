@@ -29,9 +29,6 @@ function addWord() {
       // TODO(b/1): Better errors.
       alert("You can't add two words with the same translation.");
     }
-    // if (backward[wordIn]) {
-    //   alert("You can't add a word to translate that is the same as an existing translation.");
-    // }
     forward[wordIn] = wordOut;
     backward[wordOut] = wordIn;
     chrome.storage.sync.set({'forward': forward, 'backward': backward});
@@ -72,7 +69,6 @@ var test_dict = {
 function loadTable() {
   chrome.storage.sync.get('forward', function(dict) {
     dict = dict['forward'];
-    // let dict = test_dict;
 
     let table = document.getElementById("wordTable");
     while (table.firstChild) {
