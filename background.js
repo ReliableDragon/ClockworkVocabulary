@@ -1,10 +1,18 @@
 console.log("Running!");
 
 chrome.runtime.onInstalled.addListener(function() {
-  let forward = {the: "das", a: "ein", it: "dass"};
-  let backward = {das: "the", ein: "a", dass: "it"};
-  chrome.storage.sync.set({'forward': forward, 'backward': backward}, function() {
-    console.log("Vocabulary is: " + String(forward));
+  chrome.storage.sync.get(["forward", "backward"], function(dict) {
+    let forward = {the: "das", a: "ein", it: "dass"};
+    if (dict["forward"]) {
+      forward = dict["forward"];
+    }
+    let backward = {das: "the", ein: "a", dass: "it"};
+    if (dict["backward"]) {
+      backward = dict["backward"];
+    }
+    chrome.storage.sync.set({'forward': forward, 'backward': backward}, function() {
+      console.log("Vocabulary is: " + String(forward));
+    });
   });
 });
 
