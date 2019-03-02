@@ -4,6 +4,7 @@ window.addEventListener("load", onLoad, false);
 function setColor(id, color) {
   document.getElementById(id).style.color = color;
 }
+
 function addWord() {
   let wordIn = document.getElementsByName("addWordIn")[0].value.toLowerCase();
   let wordOut = document.getElementsByName("addWordOut")[0].value.toLowerCase();
@@ -26,8 +27,11 @@ function addWord() {
     let backward = dict['backward'];
     if (backward[wordOut]) {
       // TODO(b/1): Better errors.
-      alert("You can't add two words with the same translation!");
+      alert("You can't add two words with the same translation.");
     }
+    // if (backward[wordIn]) {
+    //   alert("You can't add a word to translate that is the same as an existing translation.");
+    // }
     forward[wordIn] = wordOut;
     backward[wordOut] = wordIn;
     chrome.storage.sync.set({'forward': forward, 'backward': backward});

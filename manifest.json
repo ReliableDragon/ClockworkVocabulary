@@ -6,11 +6,9 @@
       "storage",
       "contextMenus",
       "activeTab",
+      "webNavigation",
       "tabs",
-      "http://*/*",
-      "https://*/*",
-      "<all_urls>",
-      "*://*/*"],
+      "<all_urls>"],
     "background": {
       "scripts": ["background.js"]
     },
