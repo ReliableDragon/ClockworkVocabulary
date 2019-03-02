@@ -5,9 +5,7 @@
     "permissions": [
       "storage",
       "contextMenus",
-      "activeTab",
       "webNavigation",
-      "tabs",
       "<all_urls>"],
     "background": {
       "scripts": ["background.js"]
@@ -15,11 +13,17 @@
     "page_action": {
       "default_popup": "popup.html",
       "default_icon": {
-        "16": "images/CV16.png"
+        "16": "images/CV16.png",
+        "32": "images/CV32_font.png",
+        "64": "images/CV64_font.png",
+        "128": "images/CV128_font.png"
       }
     },
     "icons": {
-      "16": "images/CV16.png"
+      "16": "images/CV16.png",
+      "32": "images/CV32_font.png",
+      "64": "images/CV64_font.png",
+      "128": "images/CV128_font.png"
     },
     "options_page": "options.html",
     "manifest_version": 2

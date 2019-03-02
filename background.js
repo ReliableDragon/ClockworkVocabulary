@@ -27,25 +27,16 @@ chrome.runtime.onInstalled.addListener(function() {
   });
 });
 
-// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 chrome.webNavigation.onDOMContentLoaded.addListener(function(details) {
-  // console.log(changeInfo);
-  // Don't run on chrome:// or chrome-extension:// pages.
-  // if (changeInfo.url &&
-  //   (changeInfo.url.substring(0, 9) == "chrome://" ||
-  //     changeInfo.url.substring(0, 19) == "chrome-extension://") ||
   if (details.url &&
     (details.url.substring(0, 9) == "chrome://" ||
       details.url.substring(0, 19) == "chrome-extension://")) {
     return;
   }
-  // console.log("Listener ran!");
-  // if (tab.active) {
   console.log("Executing vocab edit.");
   chrome.tabs.executeScript(details.tabId, {
     file: "editVocab.js"
   });
-  // }
 });
 
 var selectionId = chrome.contextMenus.create({
@@ -66,10 +57,6 @@ function addWord(wordIn, sendMessage) {
       alert("There's already a word with that translation!");
       return;
     }
-    // if (backward[wordIn]) {
-    //   alert("The word to translate cannot be the same as the translation of another word.");
-    //   return;
-    // }
     forward[wordIn] = wordOut;
     backward[wordOut] = wordIn;
     chrome.storage.sync.set({
