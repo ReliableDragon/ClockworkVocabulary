@@ -6,30 +6,30 @@
 </head>
 <body>
   <div class="row">
-  <div id="rightPanel" class="panel">
-
-  </div>
-  <div id="leftPanel" class="panel">
-  <div id="addWord">
+  <div id="addWord" class="panel">
     <h1>
       Add Word:
     </h1>
     <form>
-      Word to Translate: <input type="text" name="addWordIn" />
-      Translation: <input type="text" name="addWordOut" />
-      <input type="button" onclick="addWord()" value="Add Word" />
+      <div id="inPrompt">Word to Translate:</div><input type="text" name="addWordIn" />
+      <div id="outPrompt">Translation:</div><input type="text" name="addWordOut" />
+      <input type="button" id="addBtn" value="Add Word" />
     </form>
   </div>
-  <div id="removeWord">
+  <div id="removeWord" class="panel">
     <h1>
       Remove Word:
     </h1>
     <form>
-      Word to Remove: <input type="text" name="removeWord" />
-      <input type="button" onclick="removeWord()" value="Remove Word" />
+      <div id="removePrompt">Word to Remove:</div><input type="text" name="removeWord" />
+      <input type="button" id="removeBtn" value="Remove Word" />
     </form>
   </div>
   </div>
+  <div class="dictDisplay">
+  <h1>Words in Dictionary:</h1>
+  <table id="wordTable">
+  </table>
   </div>
 </body>
 </html>

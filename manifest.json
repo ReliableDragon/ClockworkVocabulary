@@ -5,7 +5,12 @@
     "permissions": [
       "storage",
       "contextMenus",
-      "activeTab"],
+      "activeTab",
+      "tabs",
+      "http://*/*",
+      "https://*/*",
+      "<all_urls>",
+      "*://*/*"],
     "background": {
       "scripts": ["background.js"]
     },

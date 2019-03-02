@@ -1,32 +1,47 @@
 function replaceVocab() {
-
-  chrome.storage.sync.get('vocab', function(dict) {
-    var nodeIterator = document.createNodeIterator(
+  console.log("Running edit function.");
+  chrome.storage.sync.get('forward', function(dict) {
+    var treeWalker = document.createTreeWalker(
       document.body,
       NodeFilter.SHOW_TEXT
-      // function(node) {
-      //     return node.nodeName.toLowerCase() === 'p' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-      // }
     );
 
-    dict = dict['vocab'];
-    var currentNode = nodeIterator.nextNode();
+    dict = dict['forward'];
+    console.log("Vocab replacement dict: %s", JSON.stringify(dict));
+    var currentNode = treeWalker.nextNode();
 
     while (currentNode != null) {
-        Object.keys(dict).forEach(function(element) {
+      if (!currentNode.nodeType == 3) {
+        return;
+      }
+      let regString = "(\\W|^)(" + Object.keys(dict).join("|") + ")(\\W|$)";
+      let re1 = new RegExp(regString, "gi");
 
-          let reText = '(\\W)' + element + '(\\W)';
-          let re1 = new RegExp(reText, 'g');
-
-          let replacementFunction = function(match, p1, p2) {
-          	return p1 + dict[element] + p2;
+        // Translations are converted to lower case before storage.
+        // Note: This *should* work for most Eastern translated words,
+        // since their upper and lower cases are the same.
+        let replacementFunction = function(match, p1, p2, p3) {
+          let replacement;
+          let translated = p2.toLowerCase();
+          if (p2[0].toLowerCase() == p2[0]) {
+            // lower case
+            replacement = dict[translated];
+          } else if (p2.length > 1
+                    && p2[1].toUpperCase() == p2[1]) {
+            // ALL CAPS
+            replacement = dict[translated].toUpperCase();
+          } else {
+            // Initial Capitals
+            let word = dict[translated];
+            replacement = word[0].toUpperCase() + word.substring(1);
           }
+          return p1 + replacement + p3;
+        };
 
-          currentNode.textContent = currentNode.textContent.replace(re1, replacementFunction);
-        });
-      currentNode = nodeIterator.nextNode();
-    }
+        currentNode.textContent = currentNode.textContent.replace(re1, replacementFunction);
+      currentNode = treeWalker.nextNode();
+    };
   });
-};
+}
 
 replaceVocab();
